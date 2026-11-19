@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
-import { Download } from 'lucide-vue-next';
 import BottomTabBar from '@/components/BottomTabBar.vue';
 import CreateTaskModal from '@/components/CreateTaskModal.vue';
+import InstallBanner from '@/components/InstallBanner.vue';
 import TaskDetailsModal from '@/components/TaskDetailsModal.vue';
 import ToastBanner from '@/components/ToastBanner.vue';
 import { useNotifications } from '@/composables/useNotifications';
@@ -14,11 +14,6 @@ import ProjectsView from '@/views/ProjectsView.vue';
 import TodayView from '@/views/TodayView.vue';
 import type { AppTab, Task } from '@/types/task';
 
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
-}
-
 useTheme();
 const { addTask, updateTask } = useTasks();
 const { startScheduler, stopScheduler, checkDueReminders, pushToast } = useNotifications();
@@ -28,31 +23,13 @@ const selectedTask = ref<Task | null>(null);
 const createModalOpen = ref(false);
 const editingTask = ref<Task | null>(null);
 const defaultModalDate = ref<string | undefined>(undefined);
-const installPromptEvent = ref<BeforeInstallPromptEvent | null>(null);
-
-function handleBeforeInstall(e: Event) {
-  e.preventDefault();
-  installPromptEvent.value = e as BeforeInstallPromptEvent;
-}
-
-async function triggerPwaInstall() {
-  if (!installPromptEvent.value) return;
-  await installPromptEvent.value.prompt();
-  const choice = await installPromptEvent.value.userChoice;
-  if (choice.outcome === 'accepted') {
-    pushToast('TaskFlow встановлено!', 'Додаток додано на робочий стіл.', 'success');
-    installPromptEvent.value = null;
-  }
-}
 
 onMounted(() => {
   startScheduler();
-  window.addEventListener('beforeinstallprompt', handleBeforeInstall);
 });
 
 onUnmounted(() => {
   stopScheduler();
-  window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
 });
 
 function openCreateModal(dateISO?: string) {
@@ -85,12 +62,7 @@ function handleSaveTask(payload: Omit<Task, 'id' | 'createdAt' | 'notifiedAt'>, 
 <template>
   <div class="app-backdrop">
     <div class="app-shell">
-      <div v-if="installPromptEvent" class="install-banner">
-        <span>Встановити TaskFlow на робочий стіл (PWA)</span>
-        <button type="button" class="install-btn" @click="triggerPwaInstall">
-          <Download :size="14" /> Встановити
-        </button>
-      </div>
+      <InstallBanner />
 
       <main class="app-main">
         <TodayView

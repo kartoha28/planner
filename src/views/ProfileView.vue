@@ -8,6 +8,9 @@ import { useTheme } from '@/composables/useTheme';
 const { theme, setTheme } = useTheme();
 const { tasks, resetDemoTasks, importTasksJson } = useTasks();
 const {
+  isIOSDevice,
+  isStandaloneMode,
+  swActive,
   permission,
   permissionLabel,
   notificationsEnabled,
@@ -86,8 +89,19 @@ function handleReset() {
         <h2>Локальні Push-сповіщення</h2>
         <span class="perm-badge" :class="`perm-${permission}`">{{ permissionLabel }}</span>
       </div>
+      <div class="status-pills">
+        <span class="diag-pill" :class="{ ok: swActive }">
+          Service Worker: {{ swActive ? 'Активний' : 'Очікування' }}
+        </span>
+        <span v-if="isIOSDevice" class="diag-pill" :class="{ ok: isStandaloneMode }">
+          iPhone: {{ isStandaloneMode ? 'Запущено з робочого столу' : 'Відкрито в браузері' }}
+        </span>
+      </div>
       <p class="hint">
-        Сповіщення працюють повністю локально на твоєму пристрої (через Service Worker та Notification API, без серверів).
+        <strong>Важливо про роботу у фоні без сервера:</strong> Service Worker і нагадування спрацьовують, поки додаток відкритий або згорнутий у пам’яті. Якщо повністю закрити PWA, браузер (особливо iPhone iOS) зупиняє таймери без зовнішнього push-сервера.
+      </p>
+      <p class="hint">
+        Для гарантованого будильника на заблокованому iPhone/Android без сервера відкрий задачу та натисни кнопку <strong>«.ics»</strong> — подія з нагадуванням додасться в системний Календар.
       </p>
 
       <label class="toggle-row">
@@ -226,6 +240,26 @@ function handleReset() {
   font-size: 12px;
   line-height: 18px;
   color: var(--text-secondary);
+}
+
+.status-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.diag-pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--bg-muted);
+  color: var(--text-secondary);
+}
+
+.diag-pill.ok {
+  background: var(--status-success-soft);
+  color: var(--status-success);
 }
 
 .theme-switch {

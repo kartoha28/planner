@@ -9,6 +9,17 @@ const permission = ref<NotificationPermission>(isSupported ? Notification.permis
 const notificationsEnabled = ref<boolean>(loadEnabledPref());
 const toasts = ref<ToastMessage[]>([]);
 const lastTriggeredInfo = ref<{ title: string; time: string } | null>(null);
+const swActive = ref<boolean>(false);
+
+const isIOSDevice =
+  typeof window !== 'undefined' &&
+  (/iPhone|iPad|iPod/i.test(window.navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1));
+
+const isStandaloneMode =
+  typeof window !== 'undefined' &&
+  ((window.navigator as Navigator & { standalone?: boolean }).standalone === true ||
+    window.matchMedia('(display-mode: standalone)').matches);
 
 let schedulerTimer: number | null = null;
 const scheduledTimeouts = new Map<string, number>();
@@ -189,6 +200,22 @@ export function useNotifications() {
     schedulerTimer = window.setInterval(checkDueReminders, 5000);
     window.addEventListener('focus', checkDueReminders);
     document.addEventListener('visibilitychange', checkDueReminders);
+
+    if ('serviceWorker' in navigator) {
+      void navigator.serviceWorker.ready.then(async (reg) => {
+        swActive.value = Boolean(reg.active);
+        const periodic = (reg as ServiceWorkerRegistration & {
+          periodicSync?: { register: (tag: string, opts: { minInterval: number }) => Promise<void> };
+        }).periodicSync;
+        if (periodic) {
+          try {
+            await periodic.register('check-task-reminders', { minInterval: 15 * 60 * 1000 });
+          } catch {
+            // Browser may deny periodicSync if site engagement is low or unsupported
+          }
+        }
+      });
+    }
   }
 
   function stopScheduler() {
@@ -210,6 +237,9 @@ export function useNotifications() {
 
   return {
     isSupported,
+    isIOSDevice,
+    isStandaloneMode,
+    swActive,
     permission,
     permissionLabel,
     notificationsEnabled,

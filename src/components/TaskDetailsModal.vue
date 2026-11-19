@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { Check, ChevronLeft, Edit3, Plus, Trash2 } from 'lucide-vue-next';
+import { CalendarPlus, Check, ChevronLeft, Edit3, Plus, Trash2 } from 'lucide-vue-next';
+import { pushToast } from '@/composables/useNotifications';
 import { PRIORITY_LABELS, useTasks } from '@/composables/useTasks';
+import { downloadTaskICS } from '@/utils/icsExport';
 import type { Task } from '@/types/task';
 
 const props = defineProps<{
@@ -51,6 +53,11 @@ function handleCompleteToggle() {
 function handleDelete() {
   deleteTask(liveTask.value.id);
   emit('close');
+}
+
+function handleAddToCalendar() {
+  downloadTaskICS(liveTask.value);
+  pushToast('Файл .ics збережено', 'Відкрий його — подія з нагадуванням додасться в системний Календар і спрацює навіть при закритому PWA.', 'success');
 }
 </script>
 
@@ -148,13 +155,17 @@ function handleDelete() {
       </div>
 
       <footer class="details-actions">
+        <button type="button" class="btn-secondary" title="Додати нагадування в Apple/Google Календар (.ics)" @click="handleAddToCalendar">
+          <CalendarPlus :size="16" />
+          <span>.ics</span>
+        </button>
         <button type="button" class="btn-secondary" @click="emit('edit', liveTask)">
           <Edit3 :size="16" />
           <span>Редагувати</span>
         </button>
         <button type="button" class="btn-primary" @click="handleCompleteToggle">
           <Check :size="16" />
-          <span>{{ liveTask.completed ? 'Повернути в роботу' : 'Завершити' }}</span>
+          <span>{{ liveTask.completed ? 'Повернути' : 'Завершити' }}</span>
         </button>
       </footer>
     </div>

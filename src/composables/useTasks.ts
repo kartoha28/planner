@@ -1,5 +1,6 @@
 import { computed, ref, watch } from 'vue';
 import type { Task, TaskCategory, TaskPriority } from '@/types/task';
+import { syncRemindersToIDB } from './useReminderDb';
 
 const TASKS_STORAGE_KEY = 'taskflow_tasks_v1';
 
@@ -135,6 +136,7 @@ function loadTasksFromStorage(): Task[] {
 }
 
 const tasks = ref<Task[]>(loadTasksFromStorage());
+void syncRemindersToIDB(tasks.value);
 
 watch(
   tasks,
@@ -144,6 +146,7 @@ watch(
     } catch {
       // Ignore quota exceeded
     }
+    void syncRemindersToIDB(val);
   },
   { deep: true }
 );
