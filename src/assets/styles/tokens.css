@@ -1,0 +1,113 @@
+:root {
+  --bg-canvas: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-muted: #f1f5f9;
+  --bg-input: #f8fafc;
+  --border-subtle: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-on-primary: #ffffff;
+
+  --brand-primary: #4f46e5;
+  --brand-primary-end: #7c3aed;
+  --brand-primary-soft: #eef2ff;
+
+  --status-success: #10b981;
+  --status-success-soft: #d1fae5;
+  --status-warning: #f59e0b;
+  --status-warning-soft: #fef3c7;
+  --status-danger: #ef4444;
+  --status-danger-soft: #fee2e2;
+
+  --space-xs: 6px;
+  --space-sm: 10px;
+  --space-md: 14px;
+  --space-lg: 20px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+
+  --shadow-card: 0 4px 14px rgba(15, 23, 42, 0.05);
+  --shadow-shell: 0 20px 50px rgba(15, 23, 42, 0.1);
+  --shadow-fab: 0 8px 22px rgba(79, 70, 229, 0.38);
+  --shadow-focus: 0 0 0 4px rgba(79, 70, 229, 0.14);
+
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --bg-canvas: #0b1120;
+  --bg-surface: #111827;
+  --bg-elevated: #1e293b;
+  --bg-muted: #1e293b;
+  --bg-input: #0f172a;
+  --border-subtle: #334155;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-on-primary: #ffffff;
+
+  --brand-primary: #6366f1;
+  --brand-primary-end: #8b5cf6;
+  --brand-primary-soft: #1e1b4b;
+
+  --status-success: #34d399;
+  --status-success-soft: #064e3b;
+  --status-warning: #fbbf24;
+  --status-warning-soft: #451a03;
+  --status-danger: #f87171;
+  --status-danger-soft: #450a0a;
+
+  --shadow-card: 0 8px 20px rgba(0, 0, 0, 0.32);
+  --shadow-shell: 0 24px 60px rgba(0, 0, 0, 0.55);
+  --shadow-fab: 0 8px 24px rgba(99, 102, 241, 0.45);
+  --shadow-focus: 0 0 0 4px rgba(99, 102, 241, 0.22);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 999px;
+}

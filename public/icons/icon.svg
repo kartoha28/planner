@@ -1,0 +1,46 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="36" y1="24" x2="476" y2="488" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4F46E5" />
+      <stop offset="100%" stop-color="#7C3AED" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="120" y1="108" x2="392" y2="404" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.98" />
+      <stop offset="100%" stop-color="#EEF2FF" stop-opacity="0.95" />
+    </linearGradient>
+    <filter id="softShadow" x="88" y="88" width="336" height="348" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#1E1B4B" flood-opacity="0.28" />
+    </filter>
+  </defs>
+
+  <!-- App Icon Rounded Background -->
+  <rect width="512" height="512" rx="116" fill="url(#bgGrad)" />
+
+  <!-- Subtle glass orb accents matching ProgressCard -->
+  <circle cx="430" cy="88" r="110" fill="#FFFFFF" fill-opacity="0.1" />
+  <circle cx="84" cy="434" r="90" fill="#FFFFFF" fill-opacity="0.07" />
+
+  <!-- Task Board Card -->
+  <g filter="url(#softShadow)">
+    <rect x="112" y="106" width="288" height="304" rx="46" fill="url(#cardGrad)" />
+  </g>
+
+  <!-- Top Calendar/Binder Rings -->
+  <rect x="176" y="82" width="26" height="52" rx="13" fill="#C7D2FE" />
+  <rect x="310" y="82" width="26" height="52" rx="13" fill="#C7D2FE" />
+
+  <!-- Row 1: Completed Check + Bar -->
+  <rect x="150" y="168" width="52" height="52" rx="16" fill="#10B981" />
+  <path d="M164 194.5L172.5 203L190 185.5" stroke="#FFFFFF" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round" />
+  <rect x="222" y="178" width="138" height="14" rx="7" fill="#4F46E5" />
+  <rect x="222" y="202" width="96" height="10" rx="5" fill="#94A3B8" fill-opacity="0.65" />
+
+  <!-- Row 2: Active Check + Bar -->
+  <rect x="150" y="252" width="52" height="52" rx="16" fill="#EEF2FF" stroke="#4F46E5" stroke-width="6" />
+  <rect x="222" y="262" width="122" height="14" rx="7" fill="#0F172A" fill-opacity="0.85" />
+  <rect x="222" y="286" width="84" height="10" rx="5" fill="#94A3B8" fill-opacity="0.65" />
+
+  <!-- Bottom Accent Progress Pill -->
+  <rect x="150" y="338" width="212" height="22" rx="11" fill="#E2E8F0" />
+  <rect x="150" y="338" width="138" height="22" rx="11" fill="url(#bgGrad)" />
+</svg>

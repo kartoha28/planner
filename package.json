@@ -1,0 +1,27 @@
+{
+  "name": "taskflow-planner-pwa",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview --port 4173"
+  },
+  "dependencies": {
+    "lucide-vue-next": "^0.511.0",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "@vitejs/plugin-vue": "^5.2.3",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.2",
+    "vite-plugin-pwa": "^0.21.2",
+    "vue-tsc": "^2.2.8",
+    "workbox-core": "^7.3.0",
+    "workbox-precaching": "^7.3.0",
+    "workbox-routing": "^7.3.0",
+    "workbox-strategies": "^7.3.0"
+  }
+}
